@@ -15,7 +15,7 @@
     <noscript>
         You need to enable JavaScript to run this app.
     </noscript>
-    <script src="{{mix('js/app.js')}}"></script>
+    <script src="{{mix('js/index.js')}}"></script>
 </body>
 
 </html>
