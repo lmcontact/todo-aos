@@ -1,25 +1,34 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Form, Input, Card, Button } from "antd";
-import { register } from "../store/registerSlice";
+import { register, setRegisterFormFields } from "../store/registerSlice";
 
 const inputStyle = {
     marginBottom: "1rem"
 };
 
-function Register({ dispatch }) {
+function Register({ fields, loading, setFormFields, dispatch }) {
     const [form] = Form.useForm();
 
-    const handleFormFinish = values => {
-        dispatch(register(values));
+    const handleFormFieldsChange = (_, allFields) => {
+        setFormFields(allFields);
     };
+
+    const handleFormFinish = ({ username, password }) =>
+        dispatch(register({ username, password }));
 
     return (
         <Card style={{ maxWidth: "400px", margin: "0 auto" }}>
             <h1 style={{ fontSize: "2rem", marginBottom: "3rem" }}>
                 Inscription
             </h1>
-            <Form form={form} layout="vertical" onFinish={handleFormFinish}>
+            <Form
+                form={form}
+                layout="vertical"
+                fields={fields}
+                onFieldsChange={handleFormFieldsChange}
+                onFinish={handleFormFinish}
+            >
                 <Form.Item
                     name="username"
                     label="Nom d'utilisateur"
@@ -114,6 +123,7 @@ function Register({ dispatch }) {
                                     .filter(({ errors }) => errors.length)
                                     .length
                             }
+                            loading={loading}
                         >
                             S'inscrire
                         </Button>
@@ -124,4 +134,14 @@ function Register({ dispatch }) {
     );
 }
 
-export default connect()(Register);
+const mapStateToProps = ({ register }) => ({
+    fields: register.fields,
+    loading: register.loading
+});
+
+const mapDispatchToProps = dispatch => ({
+    dispatch,
+    setFormFields: payload => dispatch(setRegisterFormFields(payload))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
