@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { Form, Input, Card, Button } from "antd";
 import { register, setRegisterFormFields } from "../store/registerSlice";
 
@@ -8,6 +9,7 @@ const inputStyle = {
 };
 
 function Register({ fields, loading, setFormFields, dispatch }) {
+    const history = useHistory();
     const [form] = Form.useForm();
 
     const handleFormFieldsChange = (_, allFields) => {
@@ -15,7 +17,7 @@ function Register({ fields, loading, setFormFields, dispatch }) {
     };
 
     const handleFormFinish = ({ username, password }) =>
-        dispatch(register({ username, password }));
+        dispatch(register(history, { username, password }));
 
     return (
         <Card style={{ maxWidth: "400px", margin: "0 auto" }}>

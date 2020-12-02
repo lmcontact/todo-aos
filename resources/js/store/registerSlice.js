@@ -1,10 +1,41 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { setNotification } from "./notificationSlice";
 
 const registerSlice = createSlice({
     name: "register",
-    initialState: { loading: false, error: null },
+    initialState: {
+        fields: [
+            {
+                name: "username",
+                errors: [],
+                touched: false,
+                validating: false,
+                value: ""
+            },
+            {
+                name: "password",
+                errors: [],
+                touched: false,
+                validating: false,
+                value: ""
+            },
+            {
+                name: "confirmation",
+                errors: [],
+                touched: false,
+                validating: false,
+                value: ""
+            }
+        ],
+        loading: false,
+        error: null
+    },
     reducers: {
+        setRegisterFormFields: (state, { payload }) => {
+            state.fields = payload;
+        },
+
         registerRequest: state => {
             state.error = null;
             state.loading = true;
@@ -14,26 +45,61 @@ const registerSlice = createSlice({
             state.loading = false;
         },
 
-        registerFailure: (state, action) => {
-            state.error = action.payload;
+        registerFailure: (state, { payload }) => {
+            state.error = payload;
             state.loading = false;
         }
     }
 });
 
-export const register = formData => async dispatch => {
+export const register = (history, formData) => async dispatch => {
     dispatch(registerRequest());
     try {
-        await axios.post("/register", formData);
+        await axios.post("/api/register", formData);
         dispatch(registerSuccess());
-    } catch (error) {
-        console.log(error);
-        dispatch(registerFailure());
+        dispatch(
+            setNotification({
+                type: "success",
+                message: "Votre compte a été créé avec succès."
+            })
+        );
+        history.push("/login");
+    } catch ({ response, request }) {
+        if (response.status === 422) {
+            const fields = formatFields(response);
+            dispatch(setRegisterFormFields(fields));
+            dispatch(registerFailure("Validation errors"));
+        } else {
+            const message = formatErrorMessage(response, request);
+            dispatch(registerFailure(message));
+            dispatch(setNotification({ type: "error", message }));
+        }
     }
 };
 
+function formatFields(response) {
+    return Object.keys(response.data.errors).map(key => ({
+        errors: response.data.errors[key],
+        name: key
+    }));
+}
+
+function formatErrorMessage(response, request) {
+    if (response) {
+        return "Une erreur interne au serveur est survenue, veuillez réessayer.";
+    }
+    return request
+        ? "Aucune réponse du serveur, veuillez réessayer."
+        : "Une erreur est survenue lors de l'envoi de la requếte, veuillez réessayer.";
+}
+
 const { actions, reducer } = registerSlice;
 
-export const { registerRequest, registerSuccess, registerFailure } = actions;
+export const {
+    setRegisterFormFields,
+    registerRequest,
+    registerSuccess,
+    registerFailure
+} = actions;
 
 export default reducer;
