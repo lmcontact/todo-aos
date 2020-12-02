@@ -21,6 +21,7 @@ function Register({ fields, loading, setFormFields, dispatch }) {
             <h1 style={{ fontSize: "2rem", marginBottom: "3rem" }}>
                 Inscription
             </h1>
+
             <Form
                 form={form}
                 layout="vertical"

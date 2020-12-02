@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { Layout } from "antd";
-
-import Login from "./views/Login";
-import Register from "./views/Register";
 import Sider from "./components/Sider";
 import Header from "./components/Header";
+import GuestRoute from "./components/GuestRoute";
+import PrivateRoute from "./components/PrivateRoute";
+import Login from "./views/Login";
+import Register from "./views/Register";
+import Home from "./views/Home";
 const { Content } = Layout;
 
 function App() {
@@ -21,13 +23,17 @@ function App() {
 
                     <Content style={{ padding: "50px" }}>
                         <Switch>
-                            <Route path="/register">
+                            <GuestRoute path="/register">
                                 <Register />
-                            </Route>
+                            </GuestRoute>
 
-                            <Route path="/login">
+                            <GuestRoute path="/login">
                                 <Login />
-                            </Route>
+                            </GuestRoute>
+
+                            <PrivateRoute path="/">
+                                <Home />
+                            </PrivateRoute>
                         </Switch>
                     </Content>
                 </Layout>

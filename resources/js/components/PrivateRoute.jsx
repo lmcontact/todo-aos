@@ -3,11 +3,21 @@ import { connect } from "react-redux";
 import { Redirect, Route } from "react-router-dom";
 import { fetchUser } from "../store/userSlice";
 
-const PrivateRoute = ({ children, user, dispatch }) => {
-    useEffect(() => dispatch(fetchUser()));
+const PrivateRoute = ({ children, user, loading, dispatch, ...rest }) => {
+    useEffect(() => {
+        if (!loading) {
+            dispatch(fetchUser());
+        }
+    }, [children]);
 
-    return (
+    return loading ? (
+        <Spin
+            size="large"
+            style={{ margin: "20vh auto 0 auto", display: "block" }}
+        />
+    ) : (
         <Route
+            {...rest}
             render={({ location }) =>
                 user ? (
                     children
@@ -24,6 +34,11 @@ const PrivateRoute = ({ children, user, dispatch }) => {
     );
 };
 
-const mapStateToProps = ({ user }, { children }) => ({ user, children });
+const mapStateToProps = ({ user }, { children, ...rest }) => ({
+    user: user.value,
+    loading: user.loading,
+    children,
+    ...rest
+});
 
 export default connect(mapStateToProps)(PrivateRoute);

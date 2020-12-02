@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { formatErrorMessage } from "./helpers";
+import { setNotification } from "./notificationSlice";
 
 const userSlice = createSlice({
     name: "user",
@@ -10,8 +12,8 @@ const userSlice = createSlice({
     },
     reducers: {
         initUserRequest(state) {
-            state.error = null;
             state.loading = true;
+            state.error = null;
         },
 
         userRequestSuccess(state, { payload }) {
