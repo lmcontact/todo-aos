@@ -1,15 +1,17 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Form, Input, Card, Button } from "antd";
+import { register } from "../store/registerSlice";
 
 const inputStyle = {
     marginBottom: "1rem"
 };
 
-function Register() {
+function Register({ dispatch }) {
     const [form] = Form.useForm();
 
     const handleFormFinish = values => {
-        console.log(values);
+        dispatch(register(values));
     };
 
     return (
@@ -122,4 +124,4 @@ function Register() {
     );
 }
 
-export default Register;
+export default connect()(Register);
