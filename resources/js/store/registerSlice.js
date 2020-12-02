@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const registerSlice = createSlice({
     name: "register",
@@ -19,6 +20,17 @@ const registerSlice = createSlice({
         }
     }
 });
+
+export const register = formData => async dispatch => {
+    dispatch(registerRequest());
+    try {
+        await axios.post("/register", formData);
+        dispatch(registerSuccess());
+    } catch (error) {
+        console.log(error);
+        dispatch(registerFailure());
+    }
+};
 
 const { actions, reducer } = registerSlice;
 
