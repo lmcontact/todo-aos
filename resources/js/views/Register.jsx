@@ -4,10 +4,6 @@ import { useHistory } from "react-router-dom";
 import { Form, Input, Card, Button } from "antd";
 import { register, setRegisterFormFields } from "../store/registerSlice";
 
-const inputStyle = {
-    marginBottom: "1rem"
-};
-
 function Register({ fields, loading, setFormFields, dispatch }) {
     const history = useHistory();
     const [form] = Form.useForm();
@@ -16,8 +12,9 @@ function Register({ fields, loading, setFormFields, dispatch }) {
         setFormFields(allFields);
     };
 
-    const handleFormFinish = ({ username, password }) =>
+    const handleFormFinish = ({ username, password }) => {
         dispatch(register(history, { username, password }));
+    };
 
     return (
         <Card style={{ maxWidth: "400px", margin: "0 auto" }}>
@@ -55,7 +52,7 @@ function Register({ fields, loading, setFormFields, dispatch }) {
                                 "Le nom d'utilisateur doit seulement être composé de caractères et de chiffres."
                         }
                     ]}
-                    style={inputStyle}
+                    style={{ marginBottom: "1rem" }}
                 >
                     <Input size="large" />
                 </Form.Item>
@@ -79,7 +76,7 @@ function Register({ fields, loading, setFormFields, dispatch }) {
                                 "Le mot de passe doit contenir 64 caractères maximum."
                         }
                     ]}
-                    style={inputStyle}
+                    style={{ marginBottom: "1rem" }}
                 >
                     <Input.Password type="password" size="large" />
                 </Form.Item>
@@ -106,7 +103,7 @@ function Register({ fields, loading, setFormFields, dispatch }) {
                             }
                         })
                     ]}
-                    style={inputStyle}
+                    style={{ marginBottom: "1rem" }}
                 >
                     <Input.Password type="password" size="large" />
                 </Form.Item>
