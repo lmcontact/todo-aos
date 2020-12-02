@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setNotification } from "./notificationSlice";
+import { formatFields, formatErrorMessage } from "./helpers";
 
 const registerSlice = createSlice({
     name: "register",
@@ -36,16 +37,16 @@ const registerSlice = createSlice({
             state.fields = payload;
         },
 
-        registerRequest: state => {
+        initRegisterRequest: state => {
             state.error = null;
             state.loading = true;
         },
 
-        registerSuccess: state => {
+        registerRequestSuccess: state => {
             state.loading = false;
         },
 
-        registerFailure: (state, { payload }) => {
+        registerRequestFailure: (state, { payload }) => {
             state.error = payload;
             state.loading = false;
         }
@@ -53,10 +54,10 @@ const registerSlice = createSlice({
 });
 
 export const register = (history, formData) => async dispatch => {
-    dispatch(registerRequest());
+    dispatch(initRegisterRequest());
     try {
         await axios.post("/api/register", formData);
-        dispatch(registerSuccess());
+        dispatch(registerRequestSuccess());
         dispatch(
             setNotification({
                 type: "success",
@@ -68,38 +69,22 @@ export const register = (history, formData) => async dispatch => {
         if (response.status === 422) {
             const fields = formatFields(response);
             dispatch(setRegisterFormFields(fields));
-            dispatch(registerFailure("Validation errors"));
+            dispatch(registerRequestFailure("Validation errors"));
         } else {
             const message = formatErrorMessage(response, request);
-            dispatch(registerFailure(message));
+            dispatch(registerRequestFailure(message));
             dispatch(setNotification({ type: "error", message }));
         }
     }
 };
 
-function formatFields(response) {
-    return Object.keys(response.data.errors).map(key => ({
-        errors: response.data.errors[key],
-        name: key
-    }));
-}
-
-function formatErrorMessage(response, request) {
-    if (response) {
-        return "Une erreur interne au serveur est survenue, veuillez réessayer.";
-    }
-    return request
-        ? "Aucune réponse du serveur, veuillez réessayer."
-        : "Une erreur est survenue lors de l'envoi de la requếte, veuillez réessayer.";
-}
-
 const { actions, reducer } = registerSlice;
 
 export const {
     setRegisterFormFields,
-    registerRequest,
-    registerSuccess,
-    registerFailure
+    initRegisterRequest,
+    registerRequestSuccess,
+    registerRequestFailure
 } = actions;
 
 export default reducer;

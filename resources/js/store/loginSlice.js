@@ -37,16 +37,16 @@ const loginSlice = createSlice({
             state.fields = payload;
         },
 
-        loginRequest: state => {
+        initLoginRequest: state => {
             state.error = null;
             state.loading = true;
         },
 
-        loginSuccess: state => {
+        loginRequestSuccess: state => {
             state.loading = false;
         },
 
-        loginFailure: (state, { payload }) => {
+        loginRequestFailure: (state, { payload }) => {
             state.error = payload;
             state.loading = false;
         }
@@ -54,23 +54,23 @@ const loginSlice = createSlice({
 });
 
 export const login = (history, formData) => async dispatch => {
-    dispatch(loginRequest());
+    dispatch(initLoginRequest());
     try {
-        const { data } = await axios.post("/api/login", formData);
-        dispatch(loginSuccess());
+        await axios.post("/api/login", formData);
+        dispatch(loginRequestSuccess());
         history.push("/");
     } catch ({ response, request }) {
         if (response.status === 422) {
             const fields = formatFields(response);
             dispatch(setLoginFormFields(fields));
-            dispatch(loginFailure("Validation errors"));
+            dispatch(loginRequestFailure("Validation errors"));
         } else if (response.status === 401) {
             const { message } = response.data;
-            dispatch(loginFailure(message));
+            dispatch(loginRequestFailure(message));
             dispatch(setNotification({ type: "error", message }));
         } else {
             const message = formatErrorMessage(response, request);
-            dispatch(loginFailure(message));
+            dispatch(loginRequestFailure(message));
             dispatch(setNotification({ type: "error", message }));
         }
     }
@@ -80,9 +80,9 @@ const { actions, reducer } = loginSlice;
 
 export const {
     setLoginFormFields,
-    loginRequest,
-    loginSuccess,
-    loginFailure
+    initLoginRequest,
+    loginRequestSuccess,
+    loginRequestFailure
 } = actions;
 
 export default reducer;
