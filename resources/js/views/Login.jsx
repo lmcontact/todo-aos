@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Form, Input, Card, Button } from "antd";
+import { Form, Input, Card, Button, Checkbox } from "antd";
 import { login, setLoginFormFields } from "../store/loginSlice";
 
 function Login({ fields, loading, setFormFields, dispatch }) {
@@ -12,8 +12,8 @@ function Login({ fields, loading, setFormFields, dispatch }) {
         setFormFields(allFields);
     };
 
-    const handleFormFinish = ({ username, password }) => {
-        dispatch(login(history, { username, password }));
+    const handleFormFinish = ({ username, password, remember }) => {
+        dispatch(login(history, { username, password, remember }));
     };
 
     return (
@@ -54,6 +54,14 @@ function Login({ fields, loading, setFormFields, dispatch }) {
                     style={{ marginBottom: "1rem" }}
                 >
                     <Input.Password type="password" size="large" />
+                </Form.Item>
+
+                <Form.Item
+                    name="remember"
+                    valuePropName="checked"
+                    style={{ marginBottom: "1rem" }}
+                >
+                    <Checkbox>Se souvenir de moi</Checkbox>
                 </Form.Item>
 
                 <Form.Item shouldUpdate style={{ marginTop: "2rem" }}>

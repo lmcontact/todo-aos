@@ -20,6 +20,13 @@ const loginSlice = createSlice({
                 touched: false,
                 validating: false,
                 value: ""
+            },
+            {
+                name: "remember",
+                errors: [],
+                touched: true,
+                validating: false,
+                value: false
             }
         ],
         loading: false,
@@ -49,7 +56,7 @@ const loginSlice = createSlice({
 export const login = (history, formData) => async dispatch => {
     dispatch(loginRequest());
     try {
-        await axios.post("/api/login", formData);
+        const { data } = await axios.post("/api/login", formData);
         dispatch(loginSuccess());
         history.push("/");
     } catch ({ response, request }) {
@@ -57,6 +64,10 @@ export const login = (history, formData) => async dispatch => {
             const fields = formatFields(response);
             dispatch(setLoginFormFields(fields));
             dispatch(loginFailure("Validation errors"));
+        } else if (response.status === 401) {
+            const { message } = response.data;
+            dispatch(loginFailure(message));
+            dispatch(setNotification({ type: "error", message }));
         } else {
             const message = formatErrorMessage(response, request);
             dispatch(loginFailure(message));
