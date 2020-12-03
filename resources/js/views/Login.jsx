@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Form, Input, Card, Button, Checkbox } from "antd";
+import { Form, Input, Card, Button, Checkbox, Divider } from "antd";
 import { login, setLoginFormFields } from "../store/loginSlice";
 
 const Login = ({ fields, loading, setFormFields, dispatch }) => {
@@ -22,9 +22,16 @@ const Login = ({ fields, loading, setFormFields, dispatch }) => {
 
     return (
         <Card style={{ maxWidth: "400px", margin: "0 auto" }}>
-            <h1 style={{ fontSize: "2rem", marginBottom: "3rem" }}>
+            <Divider
+                orientation="left"
+                style={{
+                    fontSize: "2rem",
+                    fontWeight: "600",
+                    marginBottom: "3rem"
+                }}
+            >
                 Connexion
-            </h1>
+            </Divider>
 
             <Form
                 form={form}
@@ -95,7 +102,7 @@ const Login = ({ fields, loading, setFormFields, dispatch }) => {
             </Form>
         </Card>
     );
-}
+};
 
 const mapStateToProps = ({ login }) => ({
     fields: login.fields,

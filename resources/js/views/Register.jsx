@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Form, Input, Card, Button } from "antd";
+import { Form, Input, Card, Button, Divider } from "antd";
 import { register, setRegisterFormFields } from "../store/registerSlice";
 
 const Register = ({ fields, loading, setFormFields, dispatch }) => {
@@ -18,9 +18,16 @@ const Register = ({ fields, loading, setFormFields, dispatch }) => {
 
     return (
         <Card style={{ maxWidth: "400px", margin: "0 auto" }}>
-            <h1 style={{ fontSize: "2rem", marginBottom: "3rem" }}>
+            <Divider
+                orientation="left"
+                style={{
+                    fontSize: "2rem",
+                    fontWeight: "600",
+                    marginBottom: "3rem"
+                }}
+            >
                 Inscription
-            </h1>
+            </Divider>
 
             <Form
                 form={form}
