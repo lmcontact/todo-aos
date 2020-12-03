@@ -1,16 +1,26 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
 import { Layout, Menu } from "antd";
-import { LoginOutlined, UserAddOutlined } from "@ant-design/icons";
+import {
+    LoginOutlined,
+    UserAddOutlined,
+    LogoutOutlined
+} from "@ant-design/icons";
+import { logout } from "../store/logoutSlice";
 const { Sider: AntdSider } = Layout;
 
-function Sider({ sliderCollapsed }) {
+function Sider({ sliderCollapsed, dispatch }) {
     const history = useHistory();
     const [selectedKey, setSelectedKey] = useState("1");
 
     const handleLinkClick = (route, itemKey) => {
         history.push(route);
         setSelectedKey(itemKey);
+    };
+
+    const handleLogout = () => {
+        dispatch(logout(history));
     };
 
     return (
@@ -32,9 +42,17 @@ function Sider({ sliderCollapsed }) {
                 >
                     Inscription
                 </Menu.Item>
+
+                <Menu.Item
+                    key="3"
+                    icon={<LogoutOutlined />}
+                    onClick={handleLogout}
+                >
+                    Se déconnecter
+                </Menu.Item>
             </Menu>
         </AntdSider>
     );
 }
 
-export default Sider;
+export default connect()(Sider);

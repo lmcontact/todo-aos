@@ -31,4 +31,9 @@ class AuthController extends Controller
             abort(401, 'Les identifiants sont invalides.');
         }
     }
+
+    public function logout()
+    {
+        Auth::guard('web')->logout();
+    }
 }
