@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Form, Input, Card, Button } from "antd";
 import { register, setRegisterFormFields } from "../store/registerSlice";
 
-function Register({ fields, loading, setFormFields, dispatch }) {
+const Register = ({ fields, loading, setFormFields, dispatch }) => {
     const history = useHistory();
     const [form] = Form.useForm();
 
@@ -132,7 +132,7 @@ function Register({ fields, loading, setFormFields, dispatch }) {
             </Form>
         </Card>
     );
-}
+};
 
 const mapStateToProps = ({ register }) => ({
     fields: register.fields,

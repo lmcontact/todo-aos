@@ -1,18 +1,25 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { Layout, Menu } from "antd";
 import {
     LoginOutlined,
     UserAddOutlined,
-    LogoutOutlined
+    LogoutOutlined,
+    OrderedListOutlined,
+    SettingOutlined
 } from "@ant-design/icons";
 import { logout } from "../store/logoutSlice";
 const { Sider: AntdSider } = Layout;
 
-function Sider({ sliderCollapsed, dispatch }) {
+const Sider = ({ sliderCollapsed, dispatch, user }) => {
     const history = useHistory();
+    const location = useLocation();
     const [selectedKey, setSelectedKey] = useState("1");
+
+    useEffect(() => {
+        setSelectedKey(getInitialSelectedKey(location));
+    });
 
     const handleLinkClick = (route, itemKey) => {
         history.push(route);
@@ -21,38 +28,78 @@ function Sider({ sliderCollapsed, dispatch }) {
 
     const handleLogout = () => {
         dispatch(logout(history));
+        setSelectedKey("1");
     };
 
     return (
         <AntdSider trigger={null} collapsible collapsed={sliderCollapsed}>
             <div style={{ height: "64px", width: "100%" }}></div>
             <Menu theme="dark" selectedKeys={[selectedKey]}>
-                <Menu.Item
-                    key="1"
-                    icon={<LoginOutlined />}
-                    onClick={() => handleLinkClick("/login", "1")}
-                >
-                    Connexion
-                </Menu.Item>
+                {user ? (
+                    <>
+                        <Menu.Item
+                            key="3"
+                            icon={<OrderedListOutlined />}
+                            onClick={() => handleLinkClick("/lists", "3")}
+                        >
+                            Mes listes
+                        </Menu.Item>
 
-                <Menu.Item
-                    key="2"
-                    icon={<UserAddOutlined />}
-                    onClick={() => handleLinkClick("/register", "2")}
-                >
-                    Inscription
-                </Menu.Item>
+                        <Menu.Item
+                            key="4"
+                            icon={<SettingOutlined />}
+                            onClick={() => handleLinkClick("/account", "4")}
+                        >
+                            Mon compte
+                        </Menu.Item>
 
-                <Menu.Item
-                    key="3"
-                    icon={<LogoutOutlined />}
-                    onClick={handleLogout}
-                >
-                    Se déconnecter
-                </Menu.Item>
+                        <Menu.Item
+                            key="5"
+                            icon={<LogoutOutlined />}
+                            onClick={handleLogout}
+                        >
+                            Se déconnecter
+                        </Menu.Item>
+                    </>
+                ) : (
+                    <>
+                        <Menu.Item
+                            key="1"
+                            icon={<LoginOutlined />}
+                            onClick={() => handleLinkClick("/login", "1")}
+                        >
+                            Connexion
+                        </Menu.Item>
+
+                        <Menu.Item
+                            key="2"
+                            icon={<UserAddOutlined />}
+                            onClick={() => handleLinkClick("/register", "2")}
+                        >
+                            Inscription
+                        </Menu.Item>
+                    </>
+                )}
             </Menu>
         </AntdSider>
     );
+};
+
+function getInitialSelectedKey({ pathname }) {
+    switch (pathname) {
+        case "/login":
+            return "1";
+        case "/register":
+            return "2";
+        case "/lists":
+            return "3";
+        case "/account":
+            return "4";
+    }
 }
 
-export default connect()(Sider);
+const mapStateToProps = ({ user }) => ({
+    user: user.value
+});
+
+export default connect(mapStateToProps)(Sider);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Switch } from "react-router-dom";
 import { Layout } from "antd";
 import Sider from "./components/Sider";
 import Header from "./components/Header";
@@ -7,10 +7,11 @@ import GuestRoute from "./components/GuestRoute";
 import PrivateRoute from "./components/PrivateRoute";
 import Login from "./views/Login";
 import Register from "./views/Register";
-import Home from "./views/Home";
+import Lists from "./views/Lists";
+import Account from "./views/Account";
 const { Content } = Layout;
 
-function App() {
+const App = () => {
     const [sliderCollapsed, setSliderCollapsed] = useState(false);
 
     return (
@@ -23,16 +24,24 @@ function App() {
 
                     <Content style={{ padding: "50px" }}>
                         <Switch>
-                            <GuestRoute path="/register">
+                            <GuestRoute path="/register" exact>
                                 <Register />
                             </GuestRoute>
 
-                            <GuestRoute path="/login">
+                            <GuestRoute path="/login" exact>
                                 <Login />
                             </GuestRoute>
 
+                            <PrivateRoute path="/lists">
+                                <Lists />
+                            </PrivateRoute>
+
+                            <PrivateRoute path="/account" exact>
+                                <Account />
+                            </PrivateRoute>
+
                             <PrivateRoute path="/">
-                                <Home />
+                                <Redirect to="/lists" />
                             </PrivateRoute>
                         </Switch>
                     </Content>
@@ -40,6 +49,6 @@ function App() {
             </Layout>
         </Router>
     );
-}
+};
 
 export default App;

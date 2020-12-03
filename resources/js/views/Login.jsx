@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Form, Input, Card, Button, Checkbox } from "antd";
 import { login, setLoginFormFields } from "../store/loginSlice";
 
-function Login({ fields, loading, setFormFields, dispatch }) {
+const Login = ({ fields, loading, setFormFields, dispatch }) => {
     const history = useHistory();
     const [form] = Form.useForm();
 
