@@ -3,6 +3,7 @@ import registerReducer from "./registerSlice";
 import loginReducer from "./loginSlice";
 import userReducer from "./userSlice";
 import indexListReducer from "./indexListSlice";
+import showListReducer from "./showListSlice";
 import createListReducer from "./createListSlice";
 import updateListReducer from "./updateListSlice";
 import deleteListReducer from "./deleteListSlice";
@@ -14,6 +15,7 @@ const store = configureStore({
         login: loginReducer,
         user: userReducer,
         indexList: indexListReducer,
+        showList: showListReducer,
         createList: createListReducer,
         updateList: updateListReducer,
         deleteList: deleteListReducer,

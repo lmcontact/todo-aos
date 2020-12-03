@@ -8,6 +8,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Login from "./views/Login";
 import Register from "./views/Register";
 import ListIndex from "./views/ListIndex";
+import ListShow from "./views/ListShow";
 import Account from "./views/Account";
 const { Content } = Layout;
 
@@ -31,6 +32,10 @@ const App = () => {
                             <GuestRoute path="/login" exact>
                                 <Login />
                             </GuestRoute>
+
+                            <PrivateRoute path="/lists/:id">
+                                <ListShow />
+                            </PrivateRoute>
 
                             <PrivateRoute path="/lists" exact>
                                 <ListIndex />
