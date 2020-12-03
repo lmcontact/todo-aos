@@ -66,7 +66,7 @@ export const register = (history, formData) => async dispatch => {
         );
         history.push("/login");
     } catch ({ response, request }) {
-        if (response.status === 422) {
+        if (response && response.status === 422) {
             const fields = formatFields(response);
             dispatch(setRegisterFormFields(fields));
             dispatch(registerRequestFailure("Validation errors"));

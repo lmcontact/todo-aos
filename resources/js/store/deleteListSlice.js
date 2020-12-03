@@ -32,9 +32,15 @@ export const deleteList = listId => async dispatch => {
     try {
         await axios.delete(`/api/lists/${listId}`);
         dispatch(deleteListRequestSuccess());
+        dispatch(
+            setNotification({
+                type: "success",
+                message: "Liste supprimée avec succès."
+            })
+        );
         dispatch(indexList());
     } catch ({ response, request }) {
-        if (response.status === 404) {
+        if (response && response.status === 404) {
             const { message } = "La liste n'existe pas.";
             dispatch(deleteListRequestFailure(message));
             dispatch(setNotification({ type: "error", message }));

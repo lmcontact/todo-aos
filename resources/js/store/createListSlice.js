@@ -45,10 +45,16 @@ export const createList = (handleCancel, { name }) => async dispatch => {
     try {
         await axios.post("/api/lists", { name });
         dispatch(createListRequestSuccess());
+        dispatch(
+            setNotification({
+                type: "success",
+                message: "Liste créée avec succès."
+            })
+        );
         dispatch(indexList());
         handleCancel();
     } catch ({ response, request }) {
-        if (response.status === 422) {
+        if (response && response.status === 422) {
             const fields = formatFields(response);
             dispatch(setCreateListFormFields(fields));
             dispatch(createListRequestFailure("Validation errors"));

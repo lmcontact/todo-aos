@@ -64,7 +64,7 @@ export const login = (history, formData) => async dispatch => {
         dispatch(loginRequestSuccess());
         history.push("/");
     } catch ({ response, request }) {
-        if (response.status === 422) {
+        if (response && response.status === 422) {
             const fields = formatFields(response);
             dispatch(setLoginFormFields(fields));
             dispatch(loginRequestFailure("Validation errors"));

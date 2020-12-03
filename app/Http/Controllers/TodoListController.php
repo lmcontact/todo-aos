@@ -52,9 +52,11 @@ class TodoListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreTodoListRequest $request, TodoList $todoList)
     {
-        //
+        $formData = $request->validated();
+
+        $todoList->update($formData);
     }
 
     /**

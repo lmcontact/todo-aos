@@ -8,15 +8,27 @@ import {
     DeleteOutlined
 } from "@ant-design/icons";
 import CreateListModal from "../components/CreateListModal";
+import UpdateListModal from "../components/UpdateListModal";
 import { indexList } from "../store/indexListSlice";
 import { deleteList } from "../store/deleteListSlice";
 
 const Lists = ({ lists, loading, dispatch }) => {
-    const [modalVisible, setModalVisible] = useState(false);
+    const [createModalVisible, setCreateModalVisible] = useState(false);
+    const [updateModalVisible, setUpdateModalVisible] = useState(false);
+    const [editedItem, setEditedItem] = useState(null);
 
     useEffect(() => {
         dispatch(indexList());
     }, []);
+
+    const handleCreate = () => {
+        setCreateModalVisible(true);
+    };
+
+    const handleUpdate = item => {
+        setEditedItem(item);
+        setUpdateModalVisible(true);
+    };
 
     const handleDelete = listId => {
         dispatch(deleteList(listId));
@@ -61,6 +73,7 @@ const Lists = ({ lists, loading, dispatch }) => {
                                     shape="circle"
                                     icon={<EditOutlined />}
                                     style={{ marginRight: "1rem" }}
+                                    onClick={() => handleUpdate(item)}
                                 />
                                 <Button
                                     size="small"
@@ -80,14 +93,20 @@ const Lists = ({ lists, loading, dispatch }) => {
                 size="large"
                 icon={<PlusCircleFilled />}
                 style={{ display: "block", margin: "auto", width: "300px" }}
-                onClick={() => setModalVisible(true)}
+                onClick={handleCreate}
             >
                 Créer une liste
             </Button>
 
             <CreateListModal
-                visible={modalVisible}
-                setVisible={setModalVisible}
+                visible={createModalVisible}
+                setVisible={setCreateModalVisible}
+            />
+
+            <UpdateListModal
+                visible={updateModalVisible}
+                setVisible={setUpdateModalVisible}
+                editedItem={editedItem}
             />
         </Card>
     );

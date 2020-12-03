@@ -32,7 +32,7 @@ export const logout = (history) => async dispatch => {
         dispatch(logoutRequestSuccess());
         history.push("/login");
     } catch ({ response, request }) {
-        if (response.status === 401) {
+        if (response && response.status === 401) {
             const { message } = response.data;
             dispatch(logoutRequestFailure(message));
             dispatch(setNotification({ type: "error", message }));
