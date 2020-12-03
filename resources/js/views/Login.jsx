@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Form, Input, Card, Button, Checkbox } from "antd";
@@ -7,6 +7,10 @@ import { login, setLoginFormFields } from "../store/loginSlice";
 function Login({ fields, loading, setFormFields, dispatch }) {
     const history = useHistory();
     const [form] = Form.useForm();
+
+    useEffect(() => {
+        form.resetFields();
+    }, [form]);
 
     const handleFormFieldsChange = (_, allFields) => {
         setFormFields(allFields);
@@ -73,7 +77,10 @@ function Login({ fields, loading, setFormFields, dispatch }) {
                             block
                             size="large"
                             disabled={
-                                !form.isFieldsTouched(true) ||
+                                !form.isFieldsTouched([
+                                    "username",
+                                    "password"
+                                ]) ||
                                 form
                                     .getFieldsError()
                                     .filter(({ errors }) => errors.length)

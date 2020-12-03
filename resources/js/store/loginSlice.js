@@ -24,7 +24,7 @@ const loginSlice = createSlice({
             {
                 name: "remember",
                 errors: [],
-                touched: true,
+                touched: false,
                 validating: false,
                 value: false
             }
@@ -56,7 +56,11 @@ const loginSlice = createSlice({
 export const login = (history, formData) => async dispatch => {
     dispatch(initLoginRequest());
     try {
-        await axios.post("/api/login", formData);
+        await axios.get("/sanctum/csrf-cookie");
+        await axios.post("/api/login", {
+            ...formData,
+            remember: !!formData.remember
+        });
         dispatch(loginRequestSuccess());
         history.push("/");
     } catch ({ response, request }) {

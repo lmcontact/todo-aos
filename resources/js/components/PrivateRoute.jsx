@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect, Route } from "react-router-dom";
+import { Spin } from "antd";
 import { fetchUser } from "../store/userSlice";
 
 const PrivateRoute = ({ children, user, loading, dispatch, ...rest }) => {
