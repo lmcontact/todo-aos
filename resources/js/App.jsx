@@ -7,7 +7,7 @@ import GuestRoute from "./components/GuestRoute";
 import PrivateRoute from "./components/PrivateRoute";
 import Login from "./views/Login";
 import Register from "./views/Register";
-import Lists from "./views/Lists";
+import ListIndex from "./views/ListIndex";
 import Account from "./views/Account";
 const { Content } = Layout;
 
@@ -32,8 +32,8 @@ const App = () => {
                                 <Login />
                             </GuestRoute>
 
-                            <PrivateRoute path="/lists">
-                                <Lists />
+                            <PrivateRoute path="/lists" exact>
+                                <ListIndex />
                             </PrivateRoute>
 
                             <PrivateRoute path="/account" exact>
