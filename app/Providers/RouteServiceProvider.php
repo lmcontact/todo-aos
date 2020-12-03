@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\TodoList;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +49,13 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
+        });
+
+        Route::bind('todoList', function ($value) {
+            return TodoList::where([
+                'user_id' => Auth::user()->id,
+                '_id' => new \MongoDB\BSON\ObjectId($value)
+            ])->firstOrFail();
         });
     }
 
