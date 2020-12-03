@@ -1,51 +1,51 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { formatErrorMessage } from "./helpers";
 import { setNotification } from "./notificationSlice";
+import { formatErrorMessage } from "./helpers";
 
-const userSlice = createSlice({
-    name: "user",
+const indexListSlice = createSlice({
+    name: "indexList",
     initialState: {
-        value: null,
+        lists: [],
         error: null,
         loading: false
     },
     reducers: {
-        initUserRequest(state) {
+        initIndexListRequest(state) {
             state.error = null;
             state.loading = true;
         },
 
-        userRequestSuccess(state, { payload }) {
-            state.value = payload;
+        indexListRequestSuccess(state, { payload }) {
+            state.lists = payload;
             state.loading = false;
         },
 
-        userRequestFailure(state, { payload }) {
+        indexListRequestFailure(state, { payload }) {
             state.error = payload;
             state.loading = false;
         }
     }
 });
 
-export const fetchUser = () => async dispatch => {
-    dispatch(initUserRequest());
+export const indexList = () => async dispatch => {
+    dispatch(initIndexListRequest());
     try {
-        const { data } = await axios.get("/api/user");
-        dispatch(userRequestSuccess(data));
+        const { data } = await axios.get("/api/lists");
+        indexListRequestSuccess(data);
     } catch ({ response, request }) {
         const message = formatErrorMessage(response, request);
-        dispatch(userRequestFailure(message));
+        dispatch(indexListRequestFailure(message));
         dispatch(setNotification({ type: "error", message }));
     }
 };
 
-const { reducer, actions } = userSlice;
+const { actions, reducer } = indexListSlice;
 
 export const {
-    initUserRequest,
-    userRequestSuccess,
-    userRequestFailure
+    initIndexListRequest,
+    indexListRequestSuccess,
+    indexListRequestFailure
 } = actions;
 
 export default reducer;

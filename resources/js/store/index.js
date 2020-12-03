@@ -3,6 +3,7 @@ import registerReducer from "./registerSlice";
 import loginReducer from "./loginSlice";
 import userReducer from "./userSlice";
 import createListReducer from "./createListSlice";
+import indexListReducer from "./indexListSlice";
 import notificationReducer from "./notificationSlice";
 
 const store = configureStore({
@@ -11,6 +12,7 @@ const store = configureStore({
         login: loginReducer,
         user: userReducer,
         createList: createListReducer,
+        indexList: indexListReducer,
         notification: notificationReducer
     }
 });
