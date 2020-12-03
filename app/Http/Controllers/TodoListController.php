@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTodoListRequest;
+use App\Models\TodoList;
 use Illuminate\Http\Request;
 
-class TodoListsController extends Controller
+class TodoListController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        return $request->user()->lists->all();
     }
 
     /**
@@ -25,6 +27,10 @@ class TodoListsController extends Controller
     public function store(StoreTodoListRequest $request)
     {
         $formData = $request->validated();
+
+        $request->user()->lists()->save(
+            TodoList::make($formData)
+        );
     }
 
     /**
