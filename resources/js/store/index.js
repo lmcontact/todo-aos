@@ -2,8 +2,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import registerReducer from "./registerSlice";
 import loginReducer from "./loginSlice";
 import userReducer from "./userSlice";
-import createListReducer from "./createListSlice";
 import indexListReducer from "./indexListSlice";
+import createListReducer from "./createListSlice";
+import deleteListReducer from "./deleteListSlice";
 import notificationReducer from "./notificationSlice";
 
 const store = configureStore({
@@ -11,8 +12,9 @@ const store = configureStore({
         register: registerReducer,
         login: loginReducer,
         user: userReducer,
-        createList: createListReducer,
         indexList: indexListReducer,
+        createList: createListReducer,
+        deleteList: deleteListReducer,
         notification: notificationReducer
     }
 });

@@ -9,15 +9,18 @@ import {
 } from "@ant-design/icons";
 import CreateListModal from "../components/CreateListModal";
 import { indexList } from "../store/indexListSlice";
-import { useHistory } from "react-router-dom";
+import { deleteList } from "../store/deleteListSlice";
 
 const Lists = ({ lists, loading, dispatch }) => {
-    const history = useHistory();
     const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
         dispatch(indexList());
     }, []);
+
+    const handleDelete = listId => {
+        dispatch(deleteList(listId));
+    };
 
     return (
         <Card
@@ -63,6 +66,7 @@ const Lists = ({ lists, loading, dispatch }) => {
                                     size="small"
                                     shape="circle"
                                     icon={<DeleteOutlined />}
+                                    onClick={() => handleDelete(item.id)}
                                 />
                             </Col>
                         </Row>
