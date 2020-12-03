@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTodoListRequest;
-use App\Http\Resources\TodoList as TodoListResource;
+use App\Http\Resources\TodoListResource;
 use App\Models\TodoList;
 use Illuminate\Http\Request;
 
@@ -40,9 +40,9 @@ class TodoListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(TodoList $todoList)
     {
-        //
+        return new TodoListResource($todoList->with('tasks')->get());
     }
 
     /**
