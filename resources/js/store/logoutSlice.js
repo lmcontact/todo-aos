@@ -46,7 +46,7 @@ export const logout = (history) => async dispatch => {
 
 const { actions, reducer } = logoutSlice;
 
-const {
+export const {
     initLogoutRequest,
     logoutRequestSuccess,
     logoutRequestFailure

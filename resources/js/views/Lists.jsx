@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Card, List, Divider } from "antd";
 import { PlusCircleFilled } from "@ant-design/icons";
-import NewListModal from "../components/NewListModal";
+import CreateListModal from "../components/CreateListModal";
 
 const Lists = () => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -33,7 +33,7 @@ const Lists = () => {
                 Créer une liste
             </Button>
 
-            <NewListModal visible={modalVisible} setVisible={setModalVisible} />
+            <CreateListModal visible={modalVisible} setVisible={setModalVisible} />
         </Card>
     );
 };
