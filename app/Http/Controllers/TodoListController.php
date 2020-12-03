@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTodoListRequest;
+use App\Http\Resources\TodoList as TodoListResource;
 use App\Models\TodoList;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class TodoListController extends Controller
      */
     public function index(Request $request)
     {
-        return $request->user()->lists->all();
+        return TodoListResource::collection($request->user()->lists->all());
     }
 
     /**

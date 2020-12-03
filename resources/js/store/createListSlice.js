@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setNotification } from "./notificationSlice";
 import { formatFields, formatErrorMessage } from "./helpers";
+import { indexList } from "./indexListSlice";
 
 const createListSlice = createSlice({
     name: "createList",
@@ -44,6 +45,7 @@ export const createList = (handleCancel, { name }) => async dispatch => {
     try {
         await axios.post("/api/lists", { name });
         dispatch(createListRequestSuccess());
+        dispatch(indexList());
         handleCancel();
     } catch ({ response, request }) {
         if (response.status === 422) {

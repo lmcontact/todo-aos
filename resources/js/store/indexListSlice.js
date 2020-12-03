@@ -32,7 +32,7 @@ export const indexList = () => async dispatch => {
     dispatch(initIndexListRequest());
     try {
         const { data } = await axios.get("/api/lists");
-        dispatch(indexListRequestSuccess(data));
+        dispatch(indexListRequestSuccess(data.data));
     } catch ({ response, request }) {
         const message = formatErrorMessage(response, request);
         dispatch(indexListRequestFailure(message));

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Button, Card, List, Divider, Row, Col, Space } from "antd";
+import { Link } from "react-router-dom";
 import {
     PlusCircleFilled,
     EditOutlined,
-    DeleteOutlined,
-    EyeOutlined
+    DeleteOutlined
 } from "@ant-design/icons";
 import CreateListModal from "../components/CreateListModal";
 import { indexList } from "../store/indexListSlice";
@@ -35,37 +35,32 @@ const Lists = ({ lists, loading, dispatch }) => {
             </Divider>
 
             <List
-                bordered
+                bordered={lists.length}
                 dataSource={lists}
                 locale={{ emptyText: "Vous n'avez aucune liste." }}
                 loading={loading}
                 renderItem={item => (
-                    <List.Item onClick={() => history.push("/account")}>
+                    <List.Item>
                         <Row
                             style={{ width: "100%" }}
                             align="middle"
                             justify="space-between"
                         >
-                            <Col style={{ fontWeight: "600" }}>{item.name}</Col>
+                            <Link to={`/lists/${item.id}`}>
+                                <Col style={{ fontWeight: "600" }}>
+                                    {item.name}
+                                </Col>
+                            </Link>
                             <Space />
                             <Col>
                                 <Button
-                                    type="primary"
-                                    ghost
-                                    shape="circle"
-                                    icon={<EyeOutlined />}
-                                    style={{ marginRight: "1rem" }}
-                                />
-                                <Button
-                                    type="primary"
-                                    ghost
+                                    size="small"
                                     shape="circle"
                                     icon={<EditOutlined />}
                                     style={{ marginRight: "1rem" }}
                                 />
                                 <Button
-                                    type="primary"
-                                    ghost
+                                    size="small"
                                     shape="circle"
                                     icon={<DeleteOutlined />}
                                 />
