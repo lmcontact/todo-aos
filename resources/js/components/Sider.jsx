@@ -89,7 +89,7 @@ function getInitialSelectedKey({ pathname }) {
     if (pathname === "/login") return "1";
     if (pathname === "/register") return "2";
     if (/\/lists.*/.test(pathname)) return "3";
-    if (pathname === "account") return "4";
+    if (pathname === "/account") return "4";
 }
 
 const mapStateToProps = ({ user }) => ({
