@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTodoListRequest;
 use App\Http\Resources\TodoListResource;
 use App\Models\TodoList;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class TodoListController extends Controller
 {
@@ -42,7 +43,9 @@ class TodoListController extends Controller
      */
     public function show(TodoList $todoList)
     {
-        return new TodoListResource($todoList->with('tasks')->get());
+        Gate::authorize('own-todolist', $todoList);
+
+        return new TodoListResource($todoList);
     }
 
     /**
@@ -54,6 +57,8 @@ class TodoListController extends Controller
      */
     public function update(StoreTodoListRequest $request, TodoList $todoList)
     {
+        Gate::authorize('own-todolist', $todoList);
+
         $formData = $request->validated();
 
         $todoList->update($formData);
@@ -67,6 +72,8 @@ class TodoListController extends Controller
      */
     public function destroy(TodoList $todoList)
     {
+        Gate::authorize('own-todolist', $todoList);
+
         $todoList->delete();
     }
 }

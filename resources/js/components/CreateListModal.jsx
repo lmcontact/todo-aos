@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Form, Modal, Button, Input } from "antd";
 import { createList, setCreateListFormFields } from "../store/createListSlice";
+import { isSubmitButtonDisabled } from "./helpers";
 
 const NewListModal = ({
     visible,
@@ -14,10 +15,6 @@ const NewListModal = ({
     const [form] = Form.useForm();
     const [submitDisabled, setSubmitDisabled] = useState(true);
 
-    const isSubmitButtonDisabled = () =>
-        !form.isFieldsTouched(true) ||
-        form.getFieldsError().filter(({ errors }) => errors.length).length;
-
     const handleCancel = () => {
         if (!loading) {
             setVisible(false);
@@ -26,7 +23,7 @@ const NewListModal = ({
     };
 
     const handleFormFieldsChange = (_, allFields) => {
-        setSubmitDisabled(isSubmitButtonDisabled());
+        setSubmitDisabled(isSubmitButtonDisabled(form));
         setFormFields(allFields);
     };
 

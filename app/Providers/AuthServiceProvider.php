@@ -25,6 +25,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('own-todolist', function ($user, $todoList) {
+            return $user->id === $todoList->user_id;
+        });
     }
 }
