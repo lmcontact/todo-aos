@@ -46,4 +46,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/lists/{todoList}/tasks', [TodoTaskController::class, 'store'])
         ->name('todos.store');
+    Route::delete('/tasks/{todoTask}', [TodoTaskController::class, 'destroy'])
+        ->name('tasks.destroy');
 });
