@@ -6,8 +6,7 @@ import {
     LoginOutlined,
     UserAddOutlined,
     LogoutOutlined,
-    OrderedListOutlined,
-    SettingOutlined
+    OrderedListOutlined
 } from "@ant-design/icons";
 import { logout } from "../store/logoutSlice";
 const { Sider: AntdSider } = Layout;
@@ -47,14 +46,6 @@ const Sider = ({ sliderCollapsed, dispatch, user }) => {
 
                         <Menu.Item
                             key="4"
-                            icon={<SettingOutlined />}
-                            onClick={() => handleLinkClick("/account", "4")}
-                        >
-                            Mon compte
-                        </Menu.Item>
-
-                        <Menu.Item
-                            key="5"
                             icon={<LogoutOutlined />}
                             onClick={handleLogout}
                         >
@@ -89,7 +80,6 @@ function getInitialSelectedKey({ pathname }) {
     if (pathname === "/login") return "1";
     if (pathname === "/register") return "2";
     if (/\/lists.*/.test(pathname)) return "3";
-    if (pathname === "/account") return "4";
 }
 
 const mapStateToProps = ({ user }) => ({

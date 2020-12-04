@@ -9,7 +9,6 @@ import Login from "./views/Login";
 import Register from "./views/Register";
 import ListIndex from "./views/ListIndex";
 import ListShow from "./views/ListShow";
-import Account from "./views/Account";
 const { Content } = Layout;
 
 const App = () => {
@@ -39,10 +38,6 @@ const App = () => {
 
                             <PrivateRoute path="/lists" exact>
                                 <ListIndex />
-                            </PrivateRoute>
-
-                            <PrivateRoute path="/account" exact>
-                                <Account />
                             </PrivateRoute>
 
                             <PrivateRoute path="/">
