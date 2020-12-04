@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,11 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('own-todolist', function ($user, $todoList) {
             return $user->id === $todoList->user_id;
+        });
+
+        Gate::define('own-task', function ($user, $todoTask) {
+            Log::debug($todoTask->list->toArray());
+            return $user->id === $todoTask->list->user_id;
         });
     }
 }

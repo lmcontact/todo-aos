@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\TodoList;
+use App\Models\TodoTask;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -51,10 +52,11 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         Route::bind('todoList', function ($value) {
-            return TodoList::where([
-                'user_id' => Auth::user()->id,
-                '_id' => new \MongoDB\BSON\ObjectId($value)
-            ])->firstOrFail();
+            return TodoList::where(['_id' => $value])->firstOrFail();
+        });
+
+        Route::bind('todoTask', function ($value) {
+            return TodoTask::where(['_id' => $value])->firstOrFail();
         });
     }
 

@@ -13,6 +13,6 @@ class TodoTask extends Model
 
     public function list()
     {
-        $this->belongsTo(TodoList::class);
+        return $this->belongsTo(TodoList::class, 'todo_list_id');
     }
 }

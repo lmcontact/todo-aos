@@ -11,7 +11,7 @@ class StoreTodoTaskRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:4', 'max:64', new TodoTaskUnique($this)],
-            'description' => 'string|max:500'
+            'description' => 'nullable|string|max:500'
         ];
     }
 

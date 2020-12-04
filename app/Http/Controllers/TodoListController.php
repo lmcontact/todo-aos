@@ -45,6 +45,8 @@ class TodoListController extends Controller
     {
         Gate::authorize('own-todolist', $todoList);
 
+        $todoList->load('tasks');
+
         return new TodoListResource($todoList);
     }
 
