@@ -30,7 +30,14 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function lists() {
+    public function lists()
+    {
         return $this->hasMany(TodoList::class);
+    }
+
+    public function delete()
+    {
+        TodoList::where('user_id', $this->id)->delete();
+        return parent::delete();
     }
 }

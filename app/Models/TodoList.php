@@ -20,4 +20,10 @@ class TodoList extends Model
     {
         return $this->hasMany(TodoTask::class);
     }
+
+    public function delete()
+    {
+        TodoTask::where('todo_list_id', $this->id)->delete();
+        return parent::delete();
+    }
 }
