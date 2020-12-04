@@ -11,6 +11,7 @@ import { showList } from "../store/showListSlice";
 import CreateTaskModal from "../components/CreateTaskModal";
 import { deleteTask } from "../store/deleteTaskSlice";
 import ShowTaskModal from "../components/ShowTaskModal";
+import UpdateTaskModal from "../components/UpdateTaskModal";
 
 const ListShow = ({ id, name, tasks, loading, dispatch }) => {
     const params = useParams();
@@ -132,6 +133,13 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
                 listId={id}
                 visible={createModalVisible}
                 setVisible={setCreateModalVisible}
+            />
+
+            <UpdateTaskModal
+                item={selectedItem}
+                visible={updateModalVisible}
+                setVisible={setUpdateModalVisible}
+                editedItem={selectedItem}
             />
         </Card>
     );

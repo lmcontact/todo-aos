@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Form, Modal, Button, Input } from "antd";
 import { updateList, setUpdateListFormFields } from "../store/updateListSlice";
+import { isSubmitButtonDisabled } from "./helpers";
 
 const UpdateListModal = ({
     editedItem,
@@ -21,10 +22,6 @@ const UpdateListModal = ({
         }
     }, [editedItem]);
 
-    const isSubmitButtonDisabled = () =>
-        !form.isFieldsTouched(true) ||
-        form.getFieldsError().filter(({ errors }) => errors.length).length;
-
     const handleCancel = () => {
         if (!loading) {
             setVisible(false);
@@ -33,7 +30,7 @@ const UpdateListModal = ({
     };
 
     const handleFormFieldsChange = (_, allFields) => {
-        setSubmitDisabled(isSubmitButtonDisabled());
+        setSubmitDisabled(isSubmitButtonDisabled(form));
         setFormFields(allFields);
     };
 
