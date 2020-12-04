@@ -21,7 +21,15 @@ const showListSlice = createSlice({
         showListRequestSuccess(state, { payload }) {
             state.id = payload.id;
             state.name = payload.name;
-            state.tasks = payload.tasks;
+            state.tasks = payload.tasks.sort((a, b) => {
+                if (a.completed && !b.completed) {
+                    return 1;
+                }
+                if (!a.completed && b.completed) {
+                    return -1;
+                }
+                return 0;
+            });
             state.loading = false;
         },
 

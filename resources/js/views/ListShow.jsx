@@ -16,7 +16,8 @@ import {
     PlusCircleFilled,
     EditOutlined,
     DeleteOutlined,
-    CheckOutlined
+    CheckOutlined,
+    CloseOutlined
 } from "@ant-design/icons";
 import { showList } from "../store/showListSlice";
 import CreateTaskModal from "../components/CreateTaskModal";
@@ -125,13 +126,15 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
                             </Col>
                             <Space />
                             <Col>
-                                <Button
-                                    size="small"
-                                    shape="circle"
-                                    icon={<EditOutlined />}
-                                    style={{ marginRight: "1rem" }}
-                                    onClick={() => handleUpdate(item)}
-                                />
+                                {!item.completed && (
+                                    <Button
+                                        size="small"
+                                        shape="circle"
+                                        icon={<EditOutlined />}
+                                        style={{ marginRight: "1rem" }}
+                                        onClick={() => handleUpdate(item)}
+                                    />
+                                )}
                                 <Button
                                     size="small"
                                     shape="circle"
