@@ -18,7 +18,9 @@ const Lists = ({ lists, loading, dispatch }) => {
     const [editedItem, setEditedItem] = useState(null);
 
     useEffect(() => {
-        dispatch(indexList());
+        if (!loading) {
+            dispatch(indexList());
+        }
     }, []);
 
     const handleCreate = () => {
@@ -50,7 +52,7 @@ const Lists = ({ lists, loading, dispatch }) => {
             </Divider>
 
             <List
-                bordered={lists.length}
+                bordered={lists && lists.length}
                 dataSource={lists}
                 locale={{ emptyText: "Vous n'avez aucune liste." }}
                 loading={loading}

@@ -86,16 +86,10 @@ const Sider = ({ sliderCollapsed, dispatch, user }) => {
 };
 
 function getInitialSelectedKey({ pathname }) {
-    switch (pathname) {
-        case "/login":
-            return "1";
-        case "/register":
-            return "2";
-        case "/lists":
-            return "3";
-        case "/account":
-            return "4";
-    }
+    if (pathname === "/login") return "1";
+    if (pathname === "/register") return "2";
+    if (/\/lists.*/.test(pathname)) return "3";
+    if (pathname === "account") return "4";
 }
 
 const mapStateToProps = ({ user }) => ({
