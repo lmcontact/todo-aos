@@ -7,6 +7,7 @@ import showListReducer from "./showListSlice";
 import createListReducer from "./createListSlice";
 import updateListReducer from "./updateListSlice";
 import deleteListReducer from "./deleteListSlice";
+import createTaskReducer from "./createTaskSlice";
 import notificationReducer from "./notificationSlice";
 
 const store = configureStore({
@@ -19,6 +20,7 @@ const store = configureStore({
         createList: createListReducer,
         updateList: updateListReducer,
         deleteList: deleteListReducer,
+        createTask: createTaskReducer,
         notification: notificationReducer
     }
 });

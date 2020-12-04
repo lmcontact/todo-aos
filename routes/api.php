@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TodoListController;
+use App\Http\Controllers\TodoTaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
@@ -42,4 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
         ->name('lists.update');
     Route::delete('/lists/{todoList}', [TodoListController::class, 'destroy'])
         ->name('lists.destroy');
+
+    Route::post('/lists/{todoList}/tasks', [TodoTaskController::class, 'store'])
+        ->name('todos.store');
 });

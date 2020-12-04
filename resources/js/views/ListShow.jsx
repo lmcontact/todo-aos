@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { Card, Divider, List, Space, Button, Breadcrumb } from "antd";
 import { PlusCircleFilled } from "@ant-design/icons";
 import { showList } from "../store/showListSlice";
+import CreateTaskModal from "../components/CreateTaskModal";
 
 const ListShow = ({ id, name, tasks, loading, dispatch }) => {
     const params = useParams();
@@ -12,10 +13,14 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
     const [editedItem, setEditedItem] = useState(null);
 
     useEffect(() => {
-        dispatch(showList(params.id));
+        if (!loading) {
+            dispatch(showList(params.id));
+        }
     }, []);
 
-    const handleCreate = () => {};
+    const handleCreate = () => {
+        setCreateModalVisible(true);
+    };
 
     const handleUpdate = () => {};
 
@@ -41,7 +46,7 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
             </Divider>
 
             <List
-                bordered={tasks.length}
+                bordered={tasks && tasks.length}
                 dataSource={tasks}
                 locale={{ emptyText: "Vous n'avez aucune tâche." }}
                 loading={loading}
@@ -88,6 +93,12 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
             >
                 Créer une tâche
             </Button>
+
+            <CreateTaskModal
+                listId={id}
+                visible={createModalVisible}
+                setVisible={setCreateModalVisible}
+            />
         </Card>
     );
 };
