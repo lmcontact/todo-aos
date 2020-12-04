@@ -6,11 +6,8 @@ use App\Http\Requests\StoreTodoTaskRequest;
 use App\Http\Requests\UpdateTodoTaskRequest;
 use App\Models\TodoList;
 use App\Models\TodoTask;
-use App\Rules\TodoTaskUnique;
 use App\Rules\UpdatedTodoTaskUniqueName;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Log;
 
 class TodoTaskController extends Controller
 {

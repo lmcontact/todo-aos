@@ -9,7 +9,7 @@ class TodoTask extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'completed'];
 
     public function list()
     {

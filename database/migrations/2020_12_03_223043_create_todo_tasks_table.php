@@ -18,6 +18,7 @@ class CreateTodoTasksTable extends Migration
             $table->timestamps();
             $table->text('name');
             $table->text('description');
+            $table->boolean('completed');
             $table->foreignId('todo_list_id')->constrained();
         });
     }
