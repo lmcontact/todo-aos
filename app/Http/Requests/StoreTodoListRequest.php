@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\TodoListUnique;
+use App\Rules\TodoListUniqueName;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTodoListRequest extends FormRequest
@@ -10,7 +10,7 @@ class StoreTodoListRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'min:2', 'max:64', new TodoListUnique]
+            'name' => ['required', 'string', 'min:2', 'max:64', new TodoListUniqueName]
         ];
     }
 

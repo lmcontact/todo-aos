@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTodoTaskRequest;
+use App\Http\Requests\UpdateTodoTaskRequest;
 use App\Models\TodoList;
 use App\Models\TodoTask;
+use App\Rules\TodoTaskUnique;
+use App\Rules\UpdatedTodoTaskUniqueName;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class TodoTaskController extends Controller
 {
@@ -34,9 +38,19 @@ class TodoTaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTodoTaskRequest $request, TodoTask $todoTask)
     {
-        //
+        Gate::authorize('own-task', $todoTask);
+
+        $formData = $request->validated();
+
+        if ($todoTask->name !== $formData['name']) {
+            $request->validate(['name' => [
+                new UpdatedTodoTaskUniqueName($todoTask->todo_list_id)
+            ]]);
+        }
+
+        $todoTask->update($formData);
     }
 
     /**

@@ -31,7 +31,6 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('own-task', function ($user, $todoTask) {
-            Log::debug($todoTask->list->toArray());
             return $user->id === $todoTask->list->user_id;
         });
     }

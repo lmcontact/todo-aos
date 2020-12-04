@@ -2,24 +2,12 @@
 
 namespace App\Rules;
 
-use App\Models\TodoTask;
+use App\Models\TodoList;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class TodoTaskUnique implements Rule
+class TodoListUniqueName implements Rule
 {
-    private $request;
-
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
     /**
      * Determine if the validation rule passes.
      *
@@ -29,9 +17,9 @@ class TodoTaskUnique implements Rule
      */
     public function passes($attribute, $value)
     {
-        return !TodoTask::where([
-            'name' => $value,
-            'todo_list_id' => $this->request->segment(3)
+        return !TodoList::where([
+            'user_id' => Auth::user()->id,
+            'name' => $value
         ])->exists();
     }
 
