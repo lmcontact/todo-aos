@@ -15,7 +15,7 @@ import { deleteList } from "../store/deleteListSlice";
 const Lists = ({ lists, loading, dispatch }) => {
     const [createModalVisible, setCreateModalVisible] = useState(false);
     const [updateModalVisible, setUpdateModalVisible] = useState(false);
-    const [editedItem, setEditedItem] = useState(null);
+    const [selectedItem, setSelectedItem] = useState(null);
 
     useEffect(() => {
         if (!loading) {
@@ -28,7 +28,7 @@ const Lists = ({ lists, loading, dispatch }) => {
     };
 
     const handleUpdate = item => {
-        setEditedItem(item);
+        setSelectedItem(item);
         setUpdateModalVisible(true);
     };
 
@@ -108,7 +108,7 @@ const Lists = ({ lists, loading, dispatch }) => {
             <UpdateListModal
                 visible={updateModalVisible}
                 setVisible={setUpdateModalVisible}
-                editedItem={editedItem}
+                editedItem={selectedItem}
             />
         </Card>
     );

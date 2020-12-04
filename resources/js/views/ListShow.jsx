@@ -10,12 +10,14 @@ import {
 import { showList } from "../store/showListSlice";
 import CreateTaskModal from "../components/CreateTaskModal";
 import { deleteTask } from "../store/deleteTaskSlice";
+import ShowTaskModal from "../components/ShowTaskModal";
 
 const ListShow = ({ id, name, tasks, loading, dispatch }) => {
     const params = useParams();
+    const [showModalVisible, setShowModalVisible] = useState(false);
     const [createModalVisible, setCreateModalVisible] = useState(false);
     const [updateModalVisible, setUpdateModalVisible] = useState(false);
-    const [editedItem, setEditedItem] = useState(null);
+    const [selectedItem, setSelectedItem] = useState(null);
 
     useEffect(() => {
         if (!loading) {
@@ -23,11 +25,19 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
         }
     }, []);
 
+    const handleShow = item => {
+        setSelectedItem(item);
+        setShowModalVisible(true);
+    };
+
     const handleCreate = () => {
         setCreateModalVisible(true);
     };
 
-    const handleUpdate = () => {};
+    const handleUpdate = item => {
+        setSelectedItem(item);
+        setUpdateModalVisible(true);
+    };
 
     const handleDelete = taskId => {
         dispatch(deleteTask(id, taskId));
@@ -64,11 +74,22 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
                             align="middle"
                             justify="space-between"
                         >
-                            <Link to={`/lists/${item.id}`}>
-                                <Col style={{ fontWeight: "600" }}>
-                                    {item.name}
-                                </Col>
-                            </Link>
+                            <Col style={{ fontWeight: "600" }}>
+                                {item.description ? (
+                                    <Button
+                                        type="link"
+                                        style={{
+                                            fontWeight: "600",
+                                            padding: "0"
+                                        }}
+                                        onClick={() => handleShow(item)}
+                                    >
+                                        {item.name}
+                                    </Button>
+                                ) : (
+                                    item.name
+                                )}
+                            </Col>
                             <Space />
                             <Col>
                                 <Button
@@ -100,6 +121,12 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
             >
                 Créer une tâche
             </Button>
+
+            <ShowTaskModal
+                item={selectedItem}
+                visible={showModalVisible}
+                setVisible={setShowModalVisible}
+            />
 
             <CreateTaskModal
                 listId={id}
