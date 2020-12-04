@@ -10,7 +10,8 @@ const UpdateTaskModal = ({
     visible,
     setVisible,
     dispatch,
-    setFormFields
+    setFormFields,
+    listId
 }) => {
     const [form] = Form.useForm();
     const [submitDisabled, setSubmitDisabled] = useState(true);
@@ -26,7 +27,7 @@ const UpdateTaskModal = ({
         }
     }, [editedItem]);
 
-    const isSubmitButtonDisabled = (form, fields) => {
+    const isSubmitButtonDisabled = () => {
         return (
             !(
                 form.isFieldTouched("name") ||
@@ -50,7 +51,11 @@ const UpdateTaskModal = ({
 
     const handleFormFinish = ({ name, description }) => {
         dispatch(
-            updateTask(handleCancel, { id: editedItem.id, name, description })
+            updateTask(handleCancel, listId, {
+                id: editedItem.id,
+                name,
+                description
+            })
         );
     };
 
@@ -86,10 +91,6 @@ const UpdateTaskModal = ({
                     label="Nom"
                     rules={[
                         {
-                            required: true,
-                            message: "Le nom est obligatoire."
-                        },
-                        {
                             min: 4,
                             message:
                                 "Le nom doit contenir 4 caractères minimum."
@@ -124,13 +125,14 @@ const UpdateTaskModal = ({
 
 const mapStateToProps = (
     { updateTask },
-    { visible, setVisible, editedItem }
+    { listId, visible, setVisible, editedItem }
 ) => ({
     fields: updateTask.fields,
     loading: updateTask.loading,
     visible,
     setVisible,
-    editedItem
+    editedItem,
+    listId
 });
 
 const mapDispatchToProps = dispatch => ({

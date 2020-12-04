@@ -136,6 +136,7 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
             />
 
             <UpdateTaskModal
+                listId={id}
                 item={selectedItem}
                 visible={updateModalVisible}
                 setVisible={setUpdateModalVisible}

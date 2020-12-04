@@ -47,12 +47,16 @@ const updateTaskSlice = createSlice({
     }
 });
 
-export const updateTask = (handleCancel, { id, name, description }) => async dispatch => {
+export const updateTask = (
+    handleCancel,
+    listId,
+    { id, name, description }
+) => async dispatch => {
     dispatch(initUpdateTaskRequest());
     try {
         await axios.put(`/api/tasks/${id}`, { name, description });
         dispatch(updateTaskRequestSuccess());
-        dispatch(showList());
+        dispatch(showList(listId));
         dispatch(
             setNotification({
                 type: "success",
