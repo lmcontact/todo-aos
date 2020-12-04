@@ -53,4 +53,6 @@ Route::middleware('auth:sanctum')->group(function () {
         ->name('tasks.destroy');
     Route::post('/tasks/{todoTask}/complete', [TodoTaskController::class, 'complete'])
         ->name('tasks.complete');
+    Route::post('/tasks/{todoTask}/restore', [TodoTaskController::class, 'restore'])
+        ->name('tasks.restore');
 });

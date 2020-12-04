@@ -69,4 +69,11 @@ class TodoTaskController extends Controller
 
         $todoTask->complete();
     }
+
+    public function restore(TodoTask $todoTask)
+    {
+        Gate::authorize('own-task', $todoTask);
+
+        $todoTask->restore();
+    }
 }

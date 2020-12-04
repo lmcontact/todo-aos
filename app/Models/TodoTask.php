@@ -20,4 +20,9 @@ class TodoTask extends Model
     {
         $this->update(['completed' => true]);
     }
+
+    public function restore()
+    {
+        $this->update(['completed' => false]);
+    }
 }

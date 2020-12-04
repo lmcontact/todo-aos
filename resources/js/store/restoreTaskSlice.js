@@ -4,60 +4,60 @@ import { showList } from "./showListSlice";
 import { setNotification } from "./notificationSlice";
 import { formatErrorMessage } from "./helpers";
 
-const completeTaskSlice = createSlice({
-    name: "completeTask",
+const restoreTaskSlice = createSlice({
+    name: "restoreTask",
     initialState: {
         loading: false,
         error: null
     },
     reducers: {
-        initCompleteTaskRequest(state) {
+        initRestoreTaskRequest(state) {
             state.error = null;
             state.loading = false;
         },
 
-        completeTaskRequestSuccess(state) {
+        restoreTaskRequestSuccess(state) {
             state.loading = false;
         },
 
-        completeTaskRequestFailure(state, { payload }) {
+        restoreTaskRequestFailure(state, { payload }) {
             state.error = payload;
             state.loading = false;
         }
     }
 });
 
-export const completeTask = (listId, taskId) => async dispatch => {
-    dispatch(initCompleteTaskRequest());
+export const restoreTask = (listId, taskId) => async dispatch => {
+    dispatch(initRestoreTaskRequest());
     try {
-        await axios.post(`/api/tasks/${taskId}/complete`);
-        dispatch(completeTaskRequestSuccess());
+        await axios.post(`/api/tasks/${taskId}/restore`);
+        dispatch(restoreTaskRequestSuccess());
         dispatch(
             setNotification({
                 type: "success",
-                message: "Tâche complétée avec succès."
+                message: "Tâche restaurée avec succès."
             })
         );
         dispatch(showList(listId));
     } catch ({ response, request }) {
         if (response && response.status === 404) {
             const message = "La tâche n'existe pas.";
-            dispatch(completeTaskRequestFailure(message));
+            dispatch(restoreTaskRequestFailure(message));
             dispatch(setNotification({ type: "error", message }));
         } else {
             const message = formatErrorMessage(response, request);
-            dispatch(completeTaskRequestFailure(message));
+            dispatch(restoreTaskRequestFailure(message));
             dispatch(setNotification({ type: "error", message }));
         }
     }
 };
 
-const { actions, reducer } = completeTaskSlice;
+const { actions, reducer } = restoreTaskSlice;
 
 export const {
-    initCompleteTaskRequest,
-    completeTaskRequestSuccess,
-    completeTaskRequestFailure
+    initRestoreTaskRequest,
+    restoreTaskRequestSuccess,
+    restoreTaskRequestFailure
 } = actions;
 
 export default reducer;

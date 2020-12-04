@@ -11,6 +11,7 @@ import createTaskReducer from "./createTaskSlice";
 import updateTaskReducer from "./updateTaskSlice";
 import deleteTaskReducer from "./deleteTaskSlice";
 import completeTaskReducer from "./completeTaskSlice";
+import restoreTaskReducer from "./restoreTaskSlice";
 import notificationReducer from "./notificationSlice";
 
 const store = configureStore({
@@ -27,6 +28,7 @@ const store = configureStore({
         updateTask: updateTaskReducer,
         deleteTask: deleteTaskReducer,
         completeTask: completeTaskReducer,
+        restoreTask: restoreTaskReducer,
         notification: notificationReducer
     }
 });

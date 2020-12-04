@@ -17,12 +17,13 @@ import {
     EditOutlined,
     DeleteOutlined,
     CheckOutlined,
-    CloseOutlined
+    ReloadOutlined
 } from "@ant-design/icons";
 import { showList } from "../store/showListSlice";
 import CreateTaskModal from "../components/CreateTaskModal";
 import { deleteTask } from "../store/deleteTaskSlice";
 import { completeTask } from "../store/completeTaskSlice";
+import { restoreTask } from "../store/restoreTaskSlice";
 import ShowTaskModal from "../components/ShowTaskModal";
 import UpdateTaskModal from "../components/UpdateTaskModal";
 
@@ -32,6 +33,7 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
     const [createModalVisible, setCreateModalVisible] = useState(false);
     const [updateModalVisible, setUpdateModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [showCompleted, setShowCompleted] = useState(false);
 
     useEffect(() => {
         if (!loading) {
@@ -61,6 +63,10 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
         dispatch(completeTask(id, taskId));
     };
 
+    const handleRestore = taskId => {
+        dispatch(restoreTask(id, taskId));
+    };
+
     return (
         <Card
             style={{ maxWidth: "800px", margin: "0 auto", minHeight: "100%" }}
@@ -85,12 +91,19 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
                 align="middle"
                 justify="end"
             >
-                <Checkbox>Afficher les tâches complétées</Checkbox>
+                <Checkbox
+                    checked={showCompleted}
+                    onChange={() => setShowCompleted(!showCompleted)}
+                >
+                    Afficher les tâches complétées
+                </Checkbox>
             </Row>
 
             <List
                 bordered={tasks && tasks.length}
-                dataSource={tasks}
+                dataSource={
+                    showCompleted ? tasks : tasks.filter(elt => !elt.completed)
+                }
                 locale={{ emptyText: "Vous n'avez aucune tâche." }}
                 loading={loading}
                 renderItem={item => (
@@ -134,6 +147,15 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
                                         style={{ marginRight: "1rem" }}
                                         onClick={() => handleUpdate(item)}
                                     />
+                                )}
+                                {item.completed && (
+                                    <Button
+                                        size="small"
+                                        shape="circle"
+                                        icon={<ReloadOutlined />}
+                                        style={{ marginRight: "1rem" }}
+                                        onClick={() => handleRestore(item.id)}
+                                    ></Button>
                                 )}
                                 <Button
                                     size="small"
