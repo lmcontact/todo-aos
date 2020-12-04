@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { setNotification } from "./notificationSlice";
 import { formatErrorMessage } from "./helpers";
+import { showList } from "./showListSlice";
 
 const cleanTasksSlice = createSlice({
     name: "cleanTasks",
@@ -28,7 +30,7 @@ const cleanTasksSlice = createSlice({
 export const cleanTasks = listId => async dispatch => {
     dispatch(initCleanTasksRequest());
     try {
-        await axios.post("/api/tasks/clean");
+        await axios.post(`/api/lists/${listId}/clean`);
         dispatch(cleanTasksRequestSuccess());
         dispatch(
             setNotification({

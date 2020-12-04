@@ -7,6 +7,7 @@ import showListReducer from "./showListSlice";
 import createListReducer from "./createListSlice";
 import updateListReducer from "./updateListSlice";
 import deleteListReducer from "./deleteListSlice";
+import cleanListReducer from "./cleanTasksSlice";
 import createTaskReducer from "./createTaskSlice";
 import updateTaskReducer from "./updateTaskSlice";
 import deleteTaskReducer from "./deleteTaskSlice";
@@ -25,6 +26,7 @@ const store = configureStore({
         createList: createListReducer,
         updateList: updateListReducer,
         deleteList: deleteListReducer,
+        cleanList: cleanListReducer,
         createTask: createTaskReducer,
         updateTask: updateTaskReducer,
         deleteTask: deleteTaskReducer,

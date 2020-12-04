@@ -78,4 +78,11 @@ class TodoListController extends Controller
 
         $todoList->delete();
     }
+
+    public function clean(TodoList $todoList)
+    {
+        Gate::authorize('own-todolist', $todoList);
+
+        $todoList->clean();
+    }
 }

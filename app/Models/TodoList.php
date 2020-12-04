@@ -26,4 +26,12 @@ class TodoList extends Model
         TodoTask::where('todo_list_id', $this->id)->delete();
         return parent::delete();
     }
+
+    public function clean()
+    {
+        TodoTask::where([
+            'todo_list_id' => $this->id,
+            'completed' => true
+        ])->delete();
+    }
 }

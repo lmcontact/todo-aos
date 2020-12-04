@@ -44,6 +44,8 @@ Route::middleware('auth:sanctum')->group(function () {
         ->name('lists.update');
     Route::delete('/lists/{todoList}', [TodoListController::class, 'destroy'])
         ->name('lists.destroy');
+    Route::post('/lists/{todoList}/clean', [TodoListController::class, 'clean'])
+        ->name('lists.clean');
 
     Route::post('/lists/{todoList}/tasks', [TodoTaskController::class, 'store'])
         ->name('todos.store');
