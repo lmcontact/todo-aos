@@ -24,7 +24,7 @@ class TodoTaskController extends Controller
         $formData = $request->validated();
 
         $todoList->tasks()->save(
-            TodoTask::make($formData)
+            TodoTask::make(array_merge($formData, ['completed' => false]))
         );
     }
 
@@ -61,5 +61,12 @@ class TodoTaskController extends Controller
         Gate::authorize('own-task', $todoTask);
 
         $todoTask->delete();
+    }
+
+    public function complete(TodoTask $todoTask)
+    {
+        Gate::authorize('own-task', $todoTask);
+
+        $todoTask->complete();
     }
 }

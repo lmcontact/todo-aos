@@ -15,4 +15,9 @@ class TodoTask extends Model
     {
         return $this->belongsTo(TodoList::class, 'todo_list_id');
     }
+
+    public function complete()
+    {
+        $this->update(['completed' => true]);
+    }
 }

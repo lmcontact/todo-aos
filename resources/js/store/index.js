@@ -10,6 +10,7 @@ import deleteListReducer from "./deleteListSlice";
 import createTaskReducer from "./createTaskSlice";
 import updateTaskReducer from "./updateTaskSlice";
 import deleteTaskReducer from "./deleteTaskSlice";
+import completeTaskReducer from "./completeTaskSlice";
 import notificationReducer from "./notificationSlice";
 
 const store = configureStore({
@@ -25,6 +26,7 @@ const store = configureStore({
         createTask: createTaskReducer,
         updateTask: updateTaskReducer,
         deleteTask: deleteTaskReducer,
+        completeTask: completeTaskReducer,
         notification: notificationReducer
     }
 });

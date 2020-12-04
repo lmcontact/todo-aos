@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useParams, Link } from "react-router-dom";
-import { Card, Divider, List, Space, Button, Breadcrumb, Row, Col } from "antd";
+import {
+    Card,
+    Divider,
+    List,
+    Space,
+    Button,
+    Breadcrumb,
+    Row,
+    Col,
+    Checkbox
+} from "antd";
 import {
     PlusCircleFilled,
     EditOutlined,
-    DeleteOutlined
+    DeleteOutlined,
+    CheckOutlined
 } from "@ant-design/icons";
 import { showList } from "../store/showListSlice";
 import CreateTaskModal from "../components/CreateTaskModal";
 import { deleteTask } from "../store/deleteTaskSlice";
+import { completeTask } from "../store/completeTaskSlice";
 import ShowTaskModal from "../components/ShowTaskModal";
 import UpdateTaskModal from "../components/UpdateTaskModal";
 
@@ -44,6 +56,10 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
         dispatch(deleteTask(id, taskId));
     };
 
+    const handleComplete = taskId => {
+        dispatch(completeTask(id, taskId));
+    };
+
     return (
         <Card
             style={{ maxWidth: "800px", margin: "0 auto", minHeight: "100%" }}
@@ -63,6 +79,14 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
                 </Breadcrumb>
             </Divider>
 
+            <Row
+                style={{ width: "100%", marginBottom: "1rem" }}
+                align="middle"
+                justify="end"
+            >
+                <Checkbox>Afficher les tâches complétées</Checkbox>
+            </Row>
+
             <List
                 bordered={tasks && tasks.length}
                 dataSource={tasks}
@@ -76,6 +100,14 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
                             justify="space-between"
                         >
                             <Col style={{ fontWeight: "600" }}>
+                                <Button
+                                    icon={<CheckOutlined />}
+                                    shape="circle"
+                                    style={{ marginRight: "2rem" }}
+                                    disabled={item.completed}
+                                    onClick={() => handleComplete(item.id)}
+                                ></Button>
+
                                 {item.description ? (
                                     <Button
                                         type="link"
