@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useParams, Link } from "react-router-dom";
-import { Card, Divider, List, Space, Button, Breadcrumb } from "antd";
-import { PlusCircleFilled } from "@ant-design/icons";
+import { Card, Divider, List, Space, Button, Breadcrumb, Row, Col } from "antd";
+import {
+    PlusCircleFilled,
+    EditOutlined,
+    DeleteOutlined
+} from "@ant-design/icons";
 import { showList } from "../store/showListSlice";
 import CreateTaskModal from "../components/CreateTaskModal";
+import { deleteTask } from "../store/deleteTaskSlice";
 
 const ListShow = ({ id, name, tasks, loading, dispatch }) => {
     const params = useParams();
@@ -24,7 +29,9 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
 
     const handleUpdate = () => {};
 
-    const handleDelete = () => {};
+    const handleDelete = taskId => {
+        dispatch(deleteTask(id, taskId));
+    };
 
     return (
         <Card

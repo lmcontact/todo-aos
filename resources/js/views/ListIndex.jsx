@@ -43,7 +43,7 @@ const Lists = ({ lists, loading, dispatch }) => {
             <Divider
                 orientation="left"
                 style={{
-                    fontSize: "2rem",
+                    fontSize: "1.5rem",
                     fontWeight: "600",
                     marginBottom: "3rem"
                 }}

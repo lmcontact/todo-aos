@@ -6,6 +6,9 @@ export function formatFields(response) {
 }
 
 export function formatErrorMessage(response, request) {
+    if (response && response.status === 401) {
+        return "Vous n'avez pas les autorisations nécessaires.";
+    }
     if (response) {
         return "Une erreur interne au serveur est survenue, veuillez réessayer.";
     }
