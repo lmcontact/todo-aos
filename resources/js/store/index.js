@@ -13,6 +13,7 @@ import deleteTaskReducer from "./deleteTaskSlice";
 import completeTaskReducer from "./completeTaskSlice";
 import restoreTaskReducer from "./restoreTaskSlice";
 import notificationReducer from "./notificationSlice";
+import showCompletedReducer from "./showCompletedSlice";
 
 const store = configureStore({
     reducer: {
@@ -29,7 +30,8 @@ const store = configureStore({
         deleteTask: deleteTaskReducer,
         completeTask: completeTaskReducer,
         restoreTask: restoreTaskReducer,
-        notification: notificationReducer
+        notification: notificationReducer,
+        showCompleted: showCompletedReducer
     }
 });
 

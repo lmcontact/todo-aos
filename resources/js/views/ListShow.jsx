@@ -26,14 +26,23 @@ import { completeTask } from "../store/completeTaskSlice";
 import { restoreTask } from "../store/restoreTaskSlice";
 import ShowTaskModal from "../components/ShowTaskModal";
 import UpdateTaskModal from "../components/UpdateTaskModal";
+import { setShowCompleted } from "../store/showCompletedSlice";
+import { cleanTasks } from "../store/cleanTasksSlice";
 
-const ListShow = ({ id, name, tasks, loading, dispatch }) => {
+const ListShow = ({
+    id,
+    name,
+    tasks,
+    loading,
+    showCompleted,
+    setShowCompleted,
+    dispatch
+}) => {
     const params = useParams();
     const [showModalVisible, setShowModalVisible] = useState(false);
     const [createModalVisible, setCreateModalVisible] = useState(false);
     const [updateModalVisible, setUpdateModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
-    const [showCompleted, setShowCompleted] = useState(false);
 
     useEffect(() => {
         if (!loading) {
@@ -67,6 +76,10 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
         dispatch(restoreTask(id, taskId));
     };
 
+    const handleClean = () => {
+        dispatch(cleanTasks(id));
+    };
+
     return (
         <Card
             style={{ maxWidth: "800px", margin: "0 auto", minHeight: "100%" }}
@@ -91,6 +104,17 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
                 align="middle"
                 justify="end"
             >
+                {showCompleted && (
+                    <Button
+                        type="ghost"
+                        style={{ marginRight: "2rem" }}
+                        disabled={!tasks.filter(elt => elt.completed).length}
+                        onClick={() => handleClean()}
+                    >
+                        Supprimer les tâches complétées
+                    </Button>
+                )}
+
                 <Checkbox
                     checked={showCompleted}
                     onChange={() => setShowCompleted(!showCompleted)}
@@ -203,11 +227,17 @@ const ListShow = ({ id, name, tasks, loading, dispatch }) => {
     );
 };
 
-const mapStateToProps = ({ showList }) => ({
+const mapStateToProps = ({ showList, showCompleted }) => ({
     id: showList.id,
     name: showList.name,
     tasks: showList.tasks,
-    loading: showList.loading
+    loading: showList.loading,
+    showCompleted
 });
 
-export default connect(mapStateToProps)(ListShow);
+const mapDispatchToProps = dispatch => ({
+    dispatch,
+    setShowCompleted: payload => dispatch(setShowCompleted(payload))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListShow);
