@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Row } from "antd";
 import {
     LoginOutlined,
     UserAddOutlined,
@@ -32,7 +32,13 @@ const Sider = ({ sliderCollapsed, dispatch, user }) => {
 
     return (
         <AntdSider trigger={null} collapsible collapsed={sliderCollapsed}>
-            <div style={{ height: "64px", width: "100%" }}></div>
+            <Row
+                style={{ height: "64px", width: "100%" }}
+                justify="center"
+                align="middle"
+            >
+                <h1 style={{ color: "white", fontWeight: "600", fontSize: "1.3rem" }}>Todo List</h1>
+            </Row>
             <Menu theme="dark" selectedKeys={[selectedKey]}>
                 {user ? (
                     <>
