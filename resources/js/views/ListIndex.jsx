@@ -28,7 +28,7 @@ const Lists = ({ lists, loading, dispatch }) => {
     };
 
     const handleUpdate = item => {
-        setSelectedItem(item);
+        setSelectedItem({ ...item });
         setUpdateModalVisible(true);
     };
 

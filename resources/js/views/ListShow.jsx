@@ -60,7 +60,7 @@ const ListShow = ({
     };
 
     const handleUpdate = item => {
-        setSelectedItem(item);
+        setSelectedItem({ ...item });
         setUpdateModalVisible(true);
     };
 
