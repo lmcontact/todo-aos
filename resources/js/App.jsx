@@ -1,49 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Redirect, Switch } from "react-router-dom";
 import { Layout } from "antd";
 import Sider from "./components/Sider";
+import Header from "./components/Header";
 import GuestRoute from "./components/GuestRoute";
 import PrivateRoute from "./components/PrivateRoute";
 import Login from "./views/Login";
 import Register from "./views/Register";
 import ListIndex from "./views/ListIndex";
 import ListShow from "./views/ListShow";
-const { Content, Header } = Layout;
+const { Content } = Layout;
 
-const App = () => (
-    <Router>
-        <Layout style={{ minHeight: "100vh" }}>
-            <Sider />
+const App = () => {
+    const [siderCollapsed, setSiderCollapsed] = useState(true);
 
-            <Layout className="site-layout">
-                <Header style={{ backgroundColor: "white" }} />
+    return (
+        <Router>
+            <Layout style={{ minHeight: "100vh" }}>
+                <Sider {...{ siderCollapsed, setSiderCollapsed }} />
 
-                <Content style={{ padding: "50px" }}>
-                    <Switch>
-                        <GuestRoute path="/register" exact>
-                            <Register />
-                        </GuestRoute>
+                <Layout className="site-layout">
+                    <Header {...{ siderCollapsed, setSiderCollapsed }} />
 
-                        <GuestRoute path="/login" exact>
-                            <Login />
-                        </GuestRoute>
+                    <Content style={{ padding: "10px" }}>
+                        <Switch>
+                            <GuestRoute path="/register" exact>
+                                <Register />
+                            </GuestRoute>
 
-                        <PrivateRoute path="/lists/:id">
-                            <ListShow />
-                        </PrivateRoute>
+                            <GuestRoute path="/login" exact>
+                                <Login />
+                            </GuestRoute>
 
-                        <PrivateRoute path="/lists" exact>
-                            <ListIndex />
-                        </PrivateRoute>
+                            <PrivateRoute path="/lists/:id">
+                                <ListShow />
+                            </PrivateRoute>
 
-                        <PrivateRoute path="/">
-                            <Redirect to="/lists" />
-                        </PrivateRoute>
-                    </Switch>
-                </Content>
+                            <PrivateRoute path="/lists" exact>
+                                <ListIndex />
+                            </PrivateRoute>
+
+                            <PrivateRoute path="/">
+                                <Redirect to="/lists" />
+                            </PrivateRoute>
+                        </Switch>
+                    </Content>
+                </Layout>
             </Layout>
-        </Layout>
-    </Router>
-);
+        </Router>
+    );
+};
 
 export default App;

@@ -6,16 +6,17 @@ import {
     LoginOutlined,
     UserAddOutlined,
     LogoutOutlined,
-    OrderedListOutlined
+    OrderedListOutlined,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined
 } from "@ant-design/icons";
 import { logout } from "../store/logoutSlice";
 const { Sider: AntdSider } = Layout;
 
-const Sider = ({ user, dispatch }) => {
+const Sider = ({ user, siderCollapsed, setSiderCollapsed, dispatch }) => {
     const history = useHistory();
     const location = useLocation();
     const [selectedKey, setSelectedKey] = useState("1");
-    const [collapsed, setCollapsed] = useState(true);
     const screens = Grid.useBreakpoint();
 
     useEffect(() => {
@@ -25,6 +26,9 @@ const Sider = ({ user, dispatch }) => {
     const handleLinkClick = (route, itemKey) => {
         history.push(route);
         setSelectedKey(itemKey);
+        if (!screens.md) {
+            setSiderCollapsed(!siderCollapsed);
+        }
     };
 
     const handleLogout = () => {
@@ -35,13 +39,19 @@ const Sider = ({ user, dispatch }) => {
     return (
         <AntdSider
             collapsible
-            collapsed={collapsed}
-            onCollapse={() => setCollapsed(!collapsed)}
-            width={screens.md ? "200" : "100%"}
+            collapsed={siderCollapsed}
+            onCollapse={() => setSiderCollapsed(!siderCollapsed)}
+            width={screens.md ? 200 : "100%"}
+            collapsedWidth={screens.md ? 80 : 0}
+            trigger={null}
         >
             <Row
-                style={{ height: "64px", width: "100%" }}
-                justify="center"
+                style={{
+                    height: "64px",
+                    width: "100%",
+                    padding: screens.md ? 0 : "0 2rem"
+                }}
+                justify={screens.md ? "center" : "space-between"}
                 align="middle"
             >
                 <h1
@@ -49,11 +59,25 @@ const Sider = ({ user, dispatch }) => {
                         color: "white",
                         fontWeight: "600",
                         fontSize: "1.3rem",
-                        display: collapsed ? "none" : "block"
+                        display: siderCollapsed ? "none" : "block"
                     }}
                 >
                     Todo List
                 </h1>
+                {!screens.md &&
+                    React.createElement(
+                        siderCollapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                        {
+                            className: "trigger",
+                            onClick: () => setSiderCollapsed(!siderCollapsed),
+                            style: {
+                                color: "white",
+                                fontSize: "1.3rem",
+                                marginLeft: "1rem",
+                                marginBottom: "0.5rem"
+                            }
+                        }
+                    )}
             </Row>
             <Menu theme="dark" selectedKeys={[selectedKey]}>
                 {user ? (
@@ -104,8 +128,10 @@ function getInitialSelectedKey({ pathname }) {
     if (/\/lists.*/.test(pathname)) return "3";
 }
 
-const mapStateToProps = ({ user }) => ({
-    user: user.value
+const mapStateToProps = ({ user }, { siderCollapsed, setSiderCollapsed }) => ({
+    user: user.value,
+    siderCollapsed,
+    setSiderCollapsed
 });
 
 export default connect(mapStateToProps)(Sider);
