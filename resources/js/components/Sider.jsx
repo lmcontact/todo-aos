@@ -11,10 +11,11 @@ import {
 import { logout } from "../store/logoutSlice";
 const { Sider: AntdSider } = Layout;
 
-const Sider = ({ sliderCollapsed, dispatch, user }) => {
+const Sider = ({ user, dispatch }) => {
     const history = useHistory();
     const location = useLocation();
     const [selectedKey, setSelectedKey] = useState("1");
+    const [collapsed, setCollapsed] = useState(true);
 
     useEffect(() => {
         setSelectedKey(getInitialSelectedKey(location));
@@ -31,7 +32,11 @@ const Sider = ({ sliderCollapsed, dispatch, user }) => {
     };
 
     return (
-        <AntdSider trigger={null} collapsible collapsed={sliderCollapsed}>
+        <AntdSider
+            collapsible
+            collapsed={collapsed}
+            onCollapse={() => setCollapsed(!collapsed)}
+        >
             <Row
                 style={{ height: "64px", width: "100%" }}
                 justify="center"
@@ -42,7 +47,7 @@ const Sider = ({ sliderCollapsed, dispatch, user }) => {
                         color: "white",
                         fontWeight: "600",
                         fontSize: "1.3rem",
-                        display: sliderCollapsed ? "none" : "block"
+                        display: collapsed ? "none" : "block"
                     }}
                 >
                     Todo List
