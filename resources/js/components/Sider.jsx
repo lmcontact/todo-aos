@@ -37,7 +37,16 @@ const Sider = ({ sliderCollapsed, dispatch, user }) => {
                 justify="center"
                 align="middle"
             >
-                <h1 style={{ color: "white", fontWeight: "600", fontSize: "1.3rem" }}>Todo List</h1>
+                <h1
+                    style={{
+                        color: "white",
+                        fontWeight: "600",
+                        fontSize: "1.3rem",
+                        display: sliderCollapsed ? "none" : "block"
+                    }}
+                >
+                    Todo List
+                </h1>
             </Row>
             <Menu theme="dark" selectedKeys={[selectedKey]}>
                 {user ? (
