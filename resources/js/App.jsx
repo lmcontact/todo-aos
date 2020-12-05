@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Redirect, Switch } from "react-router-dom";
-import { Layout } from "antd";
+import { Layout, Grid } from "antd";
 import Sider from "./components/Sider";
 import Header from "./components/Header";
 import GuestRoute from "./components/GuestRoute";
@@ -12,6 +12,7 @@ import ListShow from "./views/ListShow";
 const { Content } = Layout;
 
 const App = () => {
+    const screens = Grid.useBreakpoint();
     const [siderCollapsed, setSiderCollapsed] = useState(true);
 
     return (
@@ -22,7 +23,7 @@ const App = () => {
                 <Layout className="site-layout">
                     <Header {...{ siderCollapsed, setSiderCollapsed }} />
 
-                    <Content style={{ padding: "10px" }}>
+                    <Content style={{ padding: screens.md ? "50px" : "20px 10px" }}>
                         <Switch>
                             <GuestRoute path="/register" exact>
                                 <Register />

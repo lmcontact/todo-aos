@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Form, Input, Card, Button, Checkbox, Divider } from "antd";
+import { Form, Input, Card, Button, Checkbox, Divider, Grid } from "antd";
 import { login, setLoginFormFields } from "../store/loginSlice";
 
 const Login = ({ fields, loading, setFormFields, dispatch }) => {
     const history = useHistory();
     const [form] = Form.useForm();
+    const screens = Grid.useBreakpoint();
 
     useEffect(() => {
         form.resetFields();
@@ -21,7 +22,12 @@ const Login = ({ fields, loading, setFormFields, dispatch }) => {
     };
 
     return (
-        <Card style={{ maxWidth: "400px", margin: "0 auto" }}>
+        <Card
+            style={{
+                maxWidth: screens.md ? "400px" : "100%",
+                margin: "0 auto"
+            }}
+        >
             <Divider
                 orientation="left"
                 style={{
