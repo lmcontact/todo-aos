@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
-import { Layout, Menu, Row } from "antd";
+import { Layout, Menu, Row, Grid } from "antd";
 import {
     LoginOutlined,
     UserAddOutlined,
@@ -16,6 +16,7 @@ const Sider = ({ user, dispatch }) => {
     const location = useLocation();
     const [selectedKey, setSelectedKey] = useState("1");
     const [collapsed, setCollapsed] = useState(true);
+    const screens = Grid.useBreakpoint();
 
     useEffect(() => {
         setSelectedKey(getInitialSelectedKey(location));
@@ -36,6 +37,7 @@ const Sider = ({ user, dispatch }) => {
             collapsible
             collapsed={collapsed}
             onCollapse={() => setCollapsed(!collapsed)}
+            width={screens.md ? "200" : "100%"}
         >
             <Row
                 style={{ height: "64px", width: "100%" }}
